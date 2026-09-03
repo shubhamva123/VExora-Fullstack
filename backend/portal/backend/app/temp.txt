@@ -1,0 +1,22 @@
+$output = "project_export.txt"
+
+"================ PROJECT TREE ================" | Out-File $output
+
+tree /F /A | Out-File $output -Append
+
+"`n`n================ SOURCE FILES ================" | Out-File $output -Append
+
+Get-ChildItem -Recurse -File -Include *.ts,*.tsx,*.js,*.jsx,*.py,*.json |
+Where-Object {
+    $_.FullName -notmatch "node_modules|dist|build|\.git|venv|__pycache__"
+} |
+ForEach-Object {
+
+    "`n`n===================================================" | Out-File $output -Append
+    $_.FullName | Out-File $output -Append
+    "===================================================" | Out-File $output -Append
+
+    Get-Content $_.FullName | Out-File $output -Append
+}
+
+Write-Host "Done! Created project_export.txt"
