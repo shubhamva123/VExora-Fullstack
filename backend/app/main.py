@@ -14,13 +14,14 @@ app = FastAPI(title=APP_TITLE, version=APP_VERSION)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1|10\.97\.130\.169)(:\d+)?$",
+    allow_origins=[
+        "https://v-exora-fullstack.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
     expose_headers=["*"],
 )
-
 
 def utc_now() -> datetime:
     return datetime.now(timezone.utc)
